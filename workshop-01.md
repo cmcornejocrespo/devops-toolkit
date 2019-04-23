@@ -40,7 +40,7 @@ $USER/.jenkins/secrets/initialAdminPassword
 ### Scenario 2: Create a CI pipeline
 
 - New Item >> Pipeline >> My first CI Pipeline >> OK
-- Scroll down to Pipeline section and paste [this](https://raw.githubusercontent.com/cmcornejocrespo/devops-training-material/develop/jenkins/Jenkinsfile) ot this:
+- Scroll down to Pipeline section and paste [this](https://raw.githubusercontent.com/cmcornejocrespo/devops-training-material/develop/jenkins/Jenkinsfile) or this:
 
 ```yml
 
