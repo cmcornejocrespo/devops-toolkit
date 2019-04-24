@@ -15,9 +15,9 @@ vagrant box add ubuntu/bionic64
 
 - Create a Vagrantfile init template
 
-´´´sh
+```sh
 vagrant init ubuntu/bionic64
-´´´
+```
 
 - Check vm access
 
