@@ -68,14 +68,16 @@ $ nohup java -jar jenkins.war </dev/null &>/dev/null &
 
 - Open browser and access Jenkins localhost:8080
 
-- Now add the provisioner section
+Provisioners in Vagrant allow you to automatically install software, alter configurations, and more on the machine as part of the vagrant up process.
+
+- Now add the provisioner section inline [shell](https://www.vagrantup.com/docs/provisioning/shell.html#inline-scripts)
 
 ```sh
 config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    sudo apt update &>/dev/null && sudo apt install openjdk-8-jdk-headless -y &>/dev/null
-    wget --quiet http://mirrors.jenkins.io/war-stable/latest/jenkins.war
-    nohup java -jar jenkins.war </dev/null &>/dev/null &
-    echo "Completed!!"
+  sudo apt update &>/dev/null && sudo apt install openjdk-8-jdk-headless -y &>/dev/null
+  wget --quiet http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+  nohup java -jar jenkins.war </dev/null &>/dev/null &
+  echo "Completed!!"
 SHELL
 ```
 
@@ -93,9 +95,9 @@ vagrant up
 
 - Create a Vagrantfile init template
 
-´´´sh
+```sh
 vagrant init ubuntu/bionic64
-´´´
+```
 
 - Check vm access
 
@@ -119,7 +121,7 @@ sonar.vm.provider "virtualbox" do |vb|
 end
 ```
 
-- Now add the provisioner section to enable dns via inline shell
+- Now add the provisioner section via inline shell
 
 ```sh
 sonar.vm.provision "shell", inline: <<-SHELL
@@ -128,7 +130,7 @@ sonar.vm.provision "shell", inline: <<-SHELL
 SHELL
 ```
 
-- Now add the provisioner section
+- Now add the provisioner section using [docker](https://www.vagrantup.com/docs/provisioning/docker.html)
 
 ```sh
 sonar.vm.provision "docker" do |d|
@@ -137,7 +139,7 @@ sonar.vm.provision "docker" do |d|
 end
 ```
 
-- Test the vm
+- Test the vm's
 
 ```sh
 # validate Vagrantfile
@@ -160,40 +162,40 @@ vagrant init ubuntu/bionic64
 
 ```sh
 config.vm.define "jenkins" do |jenkins|
-    jenkins.vm.hostname = "jenkins"
-    jenkins.vm.network "private_network", type: "dhcp"
-    jenkins.vm.network "forwarded_port", guest: 8080, host: 8080
+  jenkins.vm.hostname = "jenkins"
+  jenkins.vm.network "private_network", type: "dhcp"
+  jenkins.vm.network "forwarded_port", guest: 8080, host: 8080
 
-    jenkins.vm.provision "shell", privileged: false, inline: <<-SHELL
-      sudo apt update &>/dev/null && sudo apt install openjdk-8-jdk-headless avahi-daemon libnss-mdns -y &>/dev/null
-      wget --quiet http://mirrors.jenkins.io/war-stable/latest/jenkins.war
-      nohup java -jar jenkins.war </dev/null &>/dev/null &
-      echo "Jenkins bootstrap Completed!!"
-    SHELL
-    
-  end
+  jenkins.vm.provision "shell", privileged: false, inline: <<-SHELL
+    sudo apt update &>/dev/null && sudo apt install openjdk-8-jdk-headless avahi-daemon libnss-mdns -y &>/dev/null
+    wget --quiet http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+    nohup java -jar jenkins.war </dev/null &>/dev/null &
+    echo "Jenkins bootstrap Completed!!"
+  SHELL
+
+end
 ```
 
 ```sh
 config.vm.define "sonar" do |sonar|
-    sonar.vm.hostname = "sonar"
-    sonar.vm.network "private_network", type: "dhcp"
-    sonar.vm.network "forwarded_port", guest: 9000, host: 9000
-    
-    sonar.vm.provider "virtualbox" do |vb|
-      vb.memory = "2560"
-    end
+  sonar.vm.hostname = "sonar"
+  sonar.vm.network "private_network", type: "dhcp"
+  sonar.vm.network "forwarded_port", guest: 9000, host: 9000
 
-    sonar.vm.provision "shell", inline: <<-SHELL
-      apt-get install -y avahi-daemon libnss-mdns
-      echo "dns bootstrap Completed!!"
-    SHELL
-    
-    sonar.vm.provision "docker" do |d|
-      d.run "sonarqube",
-        args: "-p 9000:9000"
-    end
+  sonar.vm.provider "virtualbox" do |vb|
+    vb.memory = "2560"
   end
+
+  sonar.vm.provision "shell", inline: <<-SHELL
+    apt-get install -y avahi-daemon libnss-mdns
+    echo "dns bootstrap Completed!!"
+  SHELL
+
+  sonar.vm.provision "docker" do |d|
+    d.run "sonarqube",
+      args: "-p 9000:9000"
+  end
+end
 ```
 
 - We need to create a Jenkins job as we did before and update the sonar step. Scroll down to Pipeline section and paste [this](https://raw.githubusercontent.com/cmcornejocrespo/devops-training-material/develop/jenkins/Jenkinsfile) or this:
