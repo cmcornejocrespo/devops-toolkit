@@ -1,0 +1,10 @@
+---
+java:
+  openjdk:
+    debian_package: 'openjdk-8-jdk'
+
+deb:
+  ubuntu:
+    webupd8_key: 'EEA14886'
+    webupd8_keyserver: 'keyserver.ubuntu.com'
+    webupd8_repo: 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main'

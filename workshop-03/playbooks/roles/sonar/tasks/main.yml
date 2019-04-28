@@ -1,0 +1,10 @@
+---
+- name: Start Sonar container
+  docker_container:
+    name: sonarqube
+    image: sonarqube
+    state: started
+    restart: yes
+    recreate: yes
+    published_ports:
+      - "9000:9000"

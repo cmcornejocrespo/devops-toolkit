@@ -1,0 +1,2 @@
+jenkins  ansible_host=jenkins.local  ansible_user=vagrant ansible_ssh_private_key_file=/vagrant/.vagrant/machines/jenkins/virtualbox/private_key ansible_python_interpreter=/usr/bin/python3  ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+sonar ansible_host=sonar.local   ansible_user=vagrant ansible_ssh_private_key_file=/vagrant/.vagrant/machines/sonar/virtualbox/private_key ansible_python_interpreter=/usr/bin/python3  ansible_ssh_extra_args='-o StrictHostKeyChecking=no'

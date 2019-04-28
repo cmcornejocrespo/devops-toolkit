@@ -1,0 +1,12 @@
+---
+# # Setup/install tasks.
+# - include_tasks: requirements.yml
+
+# # Configure Jenkins init settings.
+# - include_tasks: jenkins-init-settings.yml
+
+# # Install Jenkins CLI.
+# - include_tasks: install-jenkins-cli.yml
+
+# # Update Jenkins and install configured plugins.
+# - include_tasks: install-plugins.yml
