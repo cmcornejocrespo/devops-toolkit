@@ -8,7 +8,13 @@
 - Copy the password from the console ouput or from:
 
 ```sh
+#check java version 8
+java -version
 
+#run jenkins
+java -jar jenkins.war
+
+#copy password
 $USER/.jenkins/secrets/initialAdminPassword
 ```
 
