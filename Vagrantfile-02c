@@ -1,0 +1,46 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/bionic64"
+
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.hostname = "jenkins"
+    jenkins.vm.network "private_network", type: "dhcp"
+    jenkins.vm.network "forwarded_port", guest: 8080, host: 8080
+
+    jenkins.vm.provision "shell", privileged: false, inline: <<-SHELL
+      sudo apt update &>/dev/null && sudo apt install openjdk-8-jdk-headless avahi-daemon libnss-mdns -y &>/dev/null
+      wget --quiet http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+      nohup java -jar jenkins.war </dev/null &>/dev/null &
+      echo "Jenkins bootstrap Completed!!"
+    SHELL
+    
+  end
+  
+  config.vm.define "sonar" do |sonar|
+    sonar.vm.hostname = "sonar"
+    sonar.vm.network "private_network", type: "dhcp"
+    sonar.vm.network "forwarded_port", guest: 9000, host: 9000
+    
+    sonar.vm.provider "virtualbox" do |vb|
+      vb.memory = "2560"
+    end
+
+    sonar.vm.provision "shell", inline: <<-SHELL
+      apt-get install -y avahi-daemon libnss-mdns
+      echo "dns bootstrap Completed!!"
+    SHELL
+    
+    sonar.vm.provision "docker" do |d|
+      d.run "sonarqube",
+        args: "-p 9000:9000"
+    end
+  end
+  
+end
