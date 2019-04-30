@@ -14,6 +14,8 @@ java -version
 #run jenkins
 java -jar jenkins.war
 
+- Open browser localhost:8080
+
 #copy password
 $USER/.jenkins/secrets/initialAdminPassword
 ```
