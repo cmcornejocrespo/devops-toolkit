@@ -116,7 +116,7 @@ config.vm.network "forwarded_port", guest: 9000, host: 9000
 - Increase the memory of the vm to 2GB
 
 ```sh
-sonar.vm.provider "virtualbox" do |vb|
+config.vm.provider "virtualbox" do |vb|
   vb.memory = "2048"
 end
 ```
@@ -124,7 +124,7 @@ end
 - Now add the provisioner section via inline shell
 
 ```sh
-sonar.vm.provision "shell", inline: <<-SHELL
+config.vm.provision "shell", inline: <<-SHELL
   apt-get install -y avahi-daemon libnss-mdns
   echo "dns bootstrap Completed!!"
 SHELL
@@ -133,7 +133,7 @@ SHELL
 - Now add the provisioner section using [docker](https://www.vagrantup.com/docs/provisioning/docker.html)
 
 ```sh
-sonar.vm.provision "docker" do |d|
+config.vm.provision "docker" do |d|
   d.run "sonarqube",
     args: "-p 9000:9000"
 end
