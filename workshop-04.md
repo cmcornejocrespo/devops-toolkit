@@ -1,4 +1,4 @@
-# HP DevOps Toolkit
+# DevOps Toolkit
 
 ## Workshop 4 - Terraform
 
